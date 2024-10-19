@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary</title>
+    <link rel="shortcut icon" href="./d1.png" type="image/x-icon">
+    <style>
+        body{
+            font-family:'Times New Roman', Times, serif;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+        .container{
+            width: 80%;
+            border: 2px solid #ccc;
+            box-shadow: 1px 2px #ccc;
+        }
+        .container:hover{
+            box-shadow: 1px 2px #ccc;
+            transform: scale(1.01,1.01);
+        }
+        h1{
+            background-color: black;
+            color: white;
+            width: 100%;
+            border-radius: 3px;
+            margin: 0 auto;
+        }
+        .dict{
+            border: none;
+            width: 100%;
+            margin: 0 auto;
+        }
+        #input{
+            width: 70%;
+            padding: 10px;
+            border:2px solid #ccc;
+            border-radius: 4px;
+            margin: 10px;
+            display: inline-block;
+            font-size: large;
+        }
+        #input:focus{
+            outline:2px solid black;
+            border: none;
+        }
+        #btn{
+            padding: 12px;
+            border: none;
+            background-color: blue;
+            color: white;
+            font-size: large;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #btn:hover{
+            background-color: #08C2FF;
+        }
+        #btn:focus{
+            border: 2px solid black;
+            background-color: #024CAA;
+        }
+        #result{
+            margin-top: 5px;
+            font-size: medium;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dictionary</h1>
+        <div class="dict">
+            <input id="input" type="text" placeholder="Search...">
+            <button id="btn">Search</button>
+                <h3 id="heading"></h3>
+                <p id="meaning"></p>
+        </div>
+    </div>
+    <script>
+        let input=document.getElementById('input')
+        let btn=document.getElementById('btn')
+        let h3=document.getElementById('heading')
+        let p=document.getElementById('meaning')
+        let i=0;
+        btn.addEventListener('click',()=>{
+            let value=input.value;
+            if(value){
+                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${value}`)
+                .then(data=>data.json())
+                .then(data=>
+                {
+                    console.log(data)
+                    if(data && data[i]){
+                        let word=data[i].word;
+                        let definition=data[i].meanings[i].definitions[i].definition
+                        h3.textContent=`${word.toUpperCase()}`
+                        p.textContent=`Meaning is ${definition}`
+                    }
+                })
+            }else{
+                alert('Enter Item....')
+            }
+        })
+    </script>
+</body>
+</html>
